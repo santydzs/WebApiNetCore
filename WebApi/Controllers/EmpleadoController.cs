@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Negocio.Logica;
+using Negocio.DbModels;
 
 namespace WebApi.Controllers
 {
@@ -12,23 +13,30 @@ namespace WebApi.Controllers
     [ApiController]
     public class EmpleadoController : ControllerBase
     {
+        private GestorProfesionales GestorProfesionales { get; set; }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<object>> Get()
+        public EmpleadoController()
         {
-            return GestorProfesionales.ObtenerProfesionales().ToArray();
+            GestorProfesionales = new GestorProfesionales(null);
         }
 
-        /*[HttpGet("{id}", Name = "ObtenerAutor")]
-        public ActionResult<Empleado> Get(int id)
+        [HttpGet("ObtenerTodos")]
+        public ActionResult<object[]> Get()
         {
-            Empleado result = MockUsers.Empleados.FirstOrDefault(x => x.Id == id);
-            if(result == null)
-            {
-                return NotFound();
-            }
-            return result;
-        }*/
+
+            return GestorProfesionales.ObtenerProfesionales(null).ToArray();
+
+            
+        }
+
+        [HttpGet("ObtenerAutor/{id}")]
+        public ActionResult<object> Get(int id)
+        {
+            var result = GestorProfesionales.ObtenerProfesionales(id).FirstOrDefault();
+
+            if (result == null) return NotFound();
+            else return Ok(result);
+        }
 
         /*[HttpPost]
         public ActionResult Post([FromBody] Empleado empl)

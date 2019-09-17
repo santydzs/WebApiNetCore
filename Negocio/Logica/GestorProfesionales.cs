@@ -6,17 +6,25 @@ using Negocio.DbModels;
 
 namespace Negocio.Logica
 {
-    public static class GestorProfesionales
+    public class GestorProfesionales
     {
-        private static readonly MockGestionContext _context = new MockGestionContext();
+        private MockGestionContext _context { get; set; }
 
-        public static IQueryable<object> ObtenerProfesionales()
+        public GestorProfesionales(MockGestionContext context)
+        {
+            if (context != null) _context = context;
+            else _context = new MockGestionContext();
+        }
+
+        public IQueryable<object> ObtenerProfesionales(int? id)
         {
             var query =
                 from p in _context.Profesional
                 join tp in _context.TipoProfesional on p.TipoId equals tp.Id
+                where id == null || p.Id == id.Value 
                 select new { p.NombreApelldo, tp.Descripcion, tp.Señority };
             return query;
+
         }
     }
 }
