@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Negocio.Logica;
 using Negocio.DbModels;
+using Dominio.RequestEndpoint;
 
 namespace WebApi.Controllers
 {
@@ -23,10 +24,7 @@ namespace WebApi.Controllers
         [HttpGet("ObtenerTodos")]
         public ActionResult<object[]> Get()
         {
-
             return GestorProfesionales.ObtenerProfesionales(null).ToArray();
-
-            
         }
 
         [HttpGet("ObtenerAutor/{id}")]
@@ -38,15 +36,12 @@ namespace WebApi.Controllers
             else return Ok(result);
         }
 
-        /*[HttpPost]
-        public ActionResult Post([FromBody] Empleado empl)
+        [HttpPost("AltaProfesional")]
+        public ActionResult<int> Post([FromBody] ProfesionalRequest prof)
         {
-            if(MockUsers.Empleados.Any(x => x.Id == empl.Id))
-            {
-                throw new Exception("usuario con id duplicado");
-            }
-            MockUsers.Empleados.Add(empl);
-            return new CreatedAtRouteResult("ObtenerAutor", new { id = empl.Id });
-        }*/
+            int nuevoid = GestorProfesionales.AgregarProfesional(prof);
+
+            return Ok(nuevoid);
+        }
     }
 }

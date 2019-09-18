@@ -15,23 +15,35 @@ namespace Negocio.DbModels
         {
         }
 
+        public virtual DbSet<Equipo> Equipo { get; set; }
         public virtual DbSet<Profesional> Profesional { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<TipoProfesional> TipoProfesional { get; set; }
-
-        // Unable to generate entity type for table 'dbo.Equipo'. Please see the warning messages.
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-0LO0DCC\\SQLEXPRESS;Database=MockGestion;User Id=sa;Password=123456;");
+                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=MockGestion;User Id=sa;Password=123456;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+
+            modelBuilder.Entity<Equipo>(entity =>
+            {
+                entity.HasOne(d => d.IdProyectoNavigation)
+                    .WithMany(p => p.Equipo)
+                    .HasForeignKey(d => d.IdProyecto)
+                    .HasConstraintName("FK__Equipo__IdProyec__4AB81AF0");
+
+                entity.HasOne(d => d.IdprofesionalNavigation)
+                    .WithMany(p => p.Equipo)
+                    .HasForeignKey(d => d.Idprofesional)
+                    .HasConstraintName("FK__Equipo__IdProyec__49C3F6B7");
+            });
 
             modelBuilder.Entity<Profesional>(entity =>
             {
