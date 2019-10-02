@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Negocio.Logica;
 using Negocio.DbModels;
 using Dominio.RequestEndpoint;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -21,6 +22,7 @@ namespace WebApi.Controllers
             GestorProfesionales = new GestorProfesionales(null);
         }
 
+        [Authorize]
         [HttpGet("ObtenerTodos")]
         public ActionResult<object[]> Get()
         {
