@@ -11,11 +11,11 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EquiposController : ControllerBase
+    public class TeamsController : ControllerBase
     {
         private GestorEquipos Gestor { get; set; }
 
-        public EquiposController()
+        public TeamsController()
         {
             Gestor = new GestorEquipos(null);
         }

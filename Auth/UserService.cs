@@ -41,7 +41,7 @@ namespace Auth.Logic
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return new LogInfo() { token = tokenHandler.WriteToken(token) };
+            return new LogInfo() { token = tokenHandler.WriteToken(token), user = email };
         }
     }
 }

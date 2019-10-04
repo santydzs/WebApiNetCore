@@ -13,11 +13,11 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmpleadoController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
         private GestorProfesionales GestorProfesionales { get; set; }
 
-        public EmpleadoController()
+        public EmployeeController()
         {
             GestorProfesionales = new GestorProfesionales(null);
         }
