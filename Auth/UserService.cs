@@ -7,22 +7,25 @@ using System.Text;
 using Auth.DbModels;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using Auth.Models;
+using System.Threading.Tasks;
 
 namespace Auth.Logic
 {
     public class UserService
     {
         private IConfiguration Config { get; set; }
+        private AuthDBContext _repo { get; set; }
 
-        public UserService(IConfiguration config)
+        public UserService(IConfiguration config, AuthDBContext repo)
         {
+            _repo = repo;
             Config = config;
         }
 
         public LogInfo Authenticate(string email, string password)
         {
-            AuthDBContext db = new AuthDBContext();
-            Users user = db.Users.Where(x => x.Email == email && x.Pass == password).FirstOrDefault();
+            Users user = _repo.Users.Where(x => x.Email == email && x.Pass == password).FirstOrDefault();
 
             // return null if user not found
             if (user == null)
@@ -42,6 +45,21 @@ namespace Auth.Logic
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return new LogInfo() { token = tokenHandler.WriteToken(token), user = email };
+        }
+
+        public async Task<int> CreateUser(CreateUserDTO user)
+        {
+            var userdb = new Users()
+            {
+                Email = user.email,
+                Pass = user.pass
+            };
+
+            _repo.Users.Add(userdb);
+
+            int result = await _repo.SaveChangesAsync();
+
+            return userdb.Id;
         }
     }
 }

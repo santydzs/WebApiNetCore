@@ -19,13 +19,13 @@ namespace Negocio.Logica
             else Context = new MockGestionContext();
         }
 
-        public IQueryable<object> ObtenerProfesionales(int? id)
+        public IQueryable<Profesional> ObtenerProfesionales(int? id)
         {
             var query =
                 from p in Context.Profesional
                 join tp in Context.TipoProfesional on p.TipoId equals tp.Id
-                where id == null || p.Id == id.Value 
-                select new { p.NombreApelldo, tp.Descripcion, tp.Señority };
+                where id == null || p.Id == id.Value
+                select p;
             return query;
 
         }

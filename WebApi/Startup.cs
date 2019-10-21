@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Negocio.DbModels;
+using Negocio.Logica;
 using WebApi.Filters;
 
 namespace WebApi
@@ -31,6 +32,11 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<Auth.Logic.UserService>();
+            services.AddTransient<Auth.DbModels.AuthDBContext>();
+            services.AddTransient<MockGestionContext>();
+            services.AddTransient<GestorEquipos>();
+            services.AddTransient<GestorProfesionales>();
+
 
             services.AddCors();
 

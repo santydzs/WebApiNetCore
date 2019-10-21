@@ -23,7 +23,7 @@ namespace WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("authenticate")]
+        [HttpPost]
         public IActionResult Authenticate([FromBody]UserRequest input)
         {
             var user = Service.Authenticate(input.email, input.pass);
@@ -32,6 +32,15 @@ namespace WebApi.Controllers
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO input)
+        {
+            int id = await Service.CreateUser(input);
+
+            return Ok(id);
         }
     }
 }

@@ -15,12 +15,12 @@ namespace WebApi.Controllers
     {
         private GestorEquipos Gestor { get; set; }
 
-        public TeamsController()
+        public TeamsController(GestorEquipos gestor)
         {
-            Gestor = new GestorEquipos(null);
+            Gestor = gestor;
         }
 
-        [HttpGet("ObtenerTodosAsync/{id=1}")]
+        [HttpGet("AllAsync/{id=1}")]
         public async Task<ActionResult<Equipo>> Get(int id)
         {
             Equipo equipo = await Gestor.ObtenerEquipo(id);
