@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System;
 using System.Security.Claims;
 using System.Text;
 using Auth.DbModels;
@@ -9,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using Auth.Models;
 using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Auth.Logic
 {
